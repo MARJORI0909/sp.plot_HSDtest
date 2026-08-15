@@ -1,0 +1,143 @@
+class(variedad)
+class(fertilización)
+factor(variedad)
+factor(fertilización)
+
+alturaplanta$fertilización<-as.factor(alturaplanta$fertilización)
+
+alturaplanta$variedad<-as.factor(alturaplanta$variedad)
+
+alturaplanta$alt_planta<-as.numeric(alturaplanta$alt_planta)
+
+#test homogeniedad de varianzas 
+
+leveneTest(alturaplanta$altura_planta,interaction(alturaplanta$fertilización,alturaplanta$variedad),
+           center=median)
+
+#test normalidad 
+aov_residuals <- residuals(object = anva1)
+shapiro.test(x=aov_residuals)
+
+
+
+#grupos separados, no interacción
+anva0<-aov(alt_planta~fertilización+variedad,data=alturaplanta)
+anova(anva0)
+
+#incluye interacción
+anva1<-aov(alt_planta~fertilización*variedad,data=alturaplanta)
+
+anova(anva1)
+anova_tabla<-anova(anva1)
+CMerror <- anova_tabla["Residuals", "Mean Sq"]
+media_general <- mean(alturaplanta$alt_planta)
+CV <- (sqrt(CMerror) / media_general) * 100
+CV
+
+anva1$coefficients
+
+plot(anva1)
+
+
+media_general <- mean(datos$Y)
+
+
+amazorca$fertilización<-as.factor(amazorca$fertilización)
+
+amazorca$variedad<-as.factor(amazorca$variedad)
+
+amazorca$alt_mazorca<-as.numeric(amazorca$alt_mazorca)
+
+#test homogeniedad de varianzas 
+
+leveneTest(amazorca$alt_mazorca,interaction(amazorca$fertilización,amazorca$variedad),
+           center=median)
+
+#test normalidad 
+aov_residuals <- residuals(object = anva1)
+shapiro.test(x=aov_residuals)
+
+
+#incluye interacción
+anva1<-aov(alt_mazorca~fertilización*variedad,data=amazorca)
+
+anova(anva1)
+anova_tabla<-anova(anva1)
+CMerror <- anova_tabla["Residuals", "Mean Sq"]
+media_general <- mean(amazorca$alt_mazorca)
+CV <- (sqrt(CMerror) / media_general) * 100
+CV
+
+
+anva1$coefficients
+
+plot(anva1)
+
+
+
+#prueba de tukey
+tukferti<-HSD.test(alt_mazorca, fertilización, 580, 377, alpha = 0.05, group=TRUE, main = NULL, 
+                   unbalanced=FALSE,console=FALSE)
+tukferti
+
+
+
+#ANALISIS DE EFECTOS SIMPLES
+
+# Análisis de efectos simples usando emmeans
+efecto_fertilización <- emmeans(anva1, pairwise ~ fertilización | variedad)  
+print(efecto_fertilización)
+
+# Análisis de efectos simples de "Condicion" dentro de cada nivel de "Grupo"
+resultados2 <- emmeans(anva1, pairwise ~ variedad | fertilización)  
+print(efecto_variedad)
+
+# Pruebas post hoc con ajuste de p-valor
+pairs(resultados, adjust = "bonferroni")
+pairs(resultados2, adjust = "bonferroni")
+
+# Análisis de los efectos principales y de interacción
+Anova(anva1, type = 3)  # Type III: apropiado para efectos fijos
+
+# Comparaciones de medias con estimaciones marginales
+efectos_fijos <- emmeans(anva1, pairwise ~ fertilización * variedad)
+print(efectos_fijos)
+
+# Comparaciones post hoc con ajuste Bonferroni
+pairs(efectos_fijos, adjust = "bonferroni")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+altura$Riego<-as.factor(altura$Riego)
+
+altura$Variedad<-as.factor(altura$Variedad)
+
+boxplot(N...vainas.buenas..2.m.lineales~Riego, 
+        ylab="N? vainas buenas/2m lineales", xlab="%Riego",
+        main= "N? vainas buenas/2 m lineales seg?n el % de riego")
+
+boxplot(N...vainas.buenas..2.m.lineales~Variedad,
+        ylab="N? vainas buenas/2m lineales", xlab="Variedad",
+        main= "N? vainas buenas/2 m lineales seg?n la Variedad")
+
+model<-sp.plot(Bloque,Riego,Variedad,X100.semillas..g.)
+A<-HSD.test(X100.semillas..g.,Riego,9, 14.744, alpha = 0.05, 
+            group=TRUE, main = NULL,unbalanced=FALSE,console=TRUE)
+bar.group(A$groups,density=8,col="blue",border="red", ylim=c(0,60),
+          las=1, ylab="Peso 100 semillas (g)",xlab="%Riego",
+          main="Peso de 100 semillas(g) seg?n el %riego",abline(h=0))
+interaction.plot(Riego,Variedad,X100.semillas..g.,col = 3:5,
+                 ylab ="Media del Peso de 100 semillas (g)",xlab ="%Riego",
+                 main="Interacci?n Riego- Variedad en Peso de 100 semillas(g)")
