@@ -1,84 +1,35 @@
-class(variedad)
-class(fertilización)
-factor(variedad)
-factor(fertilización)
+class(genotype)
+class(irrigation)
+factor(genotype)
+factor(irrigation)
 
-alturaplanta$fertilización<-as.factor(alturaplanta$fertilización)
-
-alturaplanta$variedad<-as.factor(alturaplanta$variedad)
-
-alturaplanta$alt_planta<-as.numeric(alturaplanta$alt_planta)
-
-#test homogeniedad de varianzas 
-
-leveneTest(alturaplanta$altura_planta,interaction(alturaplanta$fertilización,alturaplanta$variedad),
+#Homogeneity of variance test
+leveneTest(data_yield$yield,interaction(data_yield$fertilización,data_yield$variedad),
            center=median)
 
-#test normalidad 
+#Normality test 
 aov_residuals <- residuals(object = anva1)
 shapiro.test(x=aov_residuals)
 
-
-
-#grupos separados, no interacción
-anva0<-aov(alt_planta~fertilización+variedad,data=alturaplanta)
-anova(anva0)
-
-#incluye interacción
-anva1<-aov(alt_planta~fertilización*variedad,data=alturaplanta)
+#Including interaction
+anva1<-aov(yield~irrigation*genotype,data=data_yield)
 
 anova(anva1)
-anova_tabla<-anova(anva1)
-CMerror <- anova_tabla["Residuals", "Mean Sq"]
-media_general <- mean(alturaplanta$alt_planta)
-CV <- (sqrt(CMerror) / media_general) * 100
+
+#Coefficient of variation (CV)
+anova_chart<-anova(anova1)
+CMerror <- anova_chart["Residuals", "Mean Sq"]
+mean <- mean(data_yield$yield)
+CV <- (sqrt(CMerror) / mean) * 100
 CV
 
-anva1$coefficients
-
-plot(anva1)
-
-
-media_general <- mean(datos$Y)
-
-
-amazorca$fertilización<-as.factor(amazorca$fertilización)
-
-amazorca$variedad<-as.factor(amazorca$variedad)
-
-amazorca$alt_mazorca<-as.numeric(amazorca$alt_mazorca)
-
-#test homogeniedad de varianzas 
-
-leveneTest(amazorca$alt_mazorca,interaction(amazorca$fertilización,amazorca$variedad),
-           center=median)
-
-#test normalidad 
-aov_residuals <- residuals(object = anva1)
-shapiro.test(x=aov_residuals)
-
-
-#incluye interacción
-anva1<-aov(alt_mazorca~fertilización*variedad,data=amazorca)
-
-anova(anva1)
-anova_tabla<-anova(anva1)
-CMerror <- anova_tabla["Residuals", "Mean Sq"]
-media_general <- mean(amazorca$alt_mazorca)
-CV <- (sqrt(CMerror) / media_general) * 100
-CV
-
-
-anva1$coefficients
-
-plot(anva1)
+anova1$coefficients
+plot(anova1)
 
 
 
-#prueba de tukey
-tukferti<-HSD.test(alt_mazorca, fertilización, 580, 377, alpha = 0.05, group=TRUE, main = NULL, 
-                   unbalanced=FALSE,console=FALSE)
-tukferti
+
+
 
 
 
