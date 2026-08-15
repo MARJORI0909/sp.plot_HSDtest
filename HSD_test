@@ -1,6 +1,4 @@
 ####yield
-
-
 #HSD test
 yield_irrigation<-HSD.test(yield, irrigation, DFerror, MSerror, alpha = 0.05, group=TRUE, main = NULL, 
                    unbalanced=FALSE,console=FALSE)
@@ -17,5 +15,11 @@ yield_treatment<-HSD.test(yield, treatment, DFerror, MSerror, alpha = 0.05, grou
 yield_treatment
 
 
+bar.group(yield_treatment$groups,density=8,col="blue",border="red", ylim=c(0,20),
+          las=1, ylab=" Yield (tn/ha)",xlab="Irrigation",
+          main="Yield Response to Irrigation Level",abline(h=0))
+interaction.plot(irrigation,genotype,yield,col = 3:5,
+                 ylab ="Average of Yield (tn/ha)",xlab ="Irrigation",
+                 main="Interaction Irrigation-Genotype in yield response")
 
 
