@@ -3,14 +3,3 @@ boxplot(yield~irrigation,
         ylab="yield", xlab="irrigation level",
         main= "Yield Response to Irrigation Level")
 
-
-
-
-A<-HSD.test(X100.semillas..g.,Riego,9, 14.744, alpha = 0.05, 
-            group=TRUE, main = NULL,unbalanced=FALSE,console=TRUE)
-bar.group(A$groups,density=8,col="blue",border="red", ylim=c(0,60),
-          las=1, ylab="Peso 100 semillas (g)",xlab="%Riego",
-          main="Peso de 100 semillas(g) seg?n el %riego",abline(h=0))
-interaction.plot(Riego,Variedad,X100.semillas..g.,col = 3:5,
-                 ylab ="Media del Peso de 100 semillas (g)",xlab ="%Riego",
-                 main="Interacci?n Riego- Variedad en Peso de 100 semillas(g)")
