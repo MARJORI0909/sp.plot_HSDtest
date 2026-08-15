@@ -1,0 +1,48 @@
+####yield
+
+data_yield$irrigation<-as.factor(data_yield$irrigation)
+
+data_yield$genotype<-as.factor(data_yield$genotype)
+
+#Homogeneity of variance test
+leveneTest(data_yield$yield,interaction(data_yield$fertilización,data_yield$variedad),
+           center=median)
+
+#Including interaction
+anva1<-aov(yield~irrigation*genotype,data=data_yield)
+
+anova(anva1)
+
+#Normality test 
+aov_residuals <- residuals(object = anva1)
+shapiro.test(x=aov_residuals)
+
+#Coefficient of variation (CV)
+anova_chart<-anova(anova1)
+CMerror <- anova_chart["Residuals", "Mean Sq"]
+mean <- mean(data_yield$yield)
+CV <- (sqrt(CMerror) / mean) * 100
+CV
+
+anova1$coefficients
+plot(anova1)
+
+
+#HSD test
+yield_irrigation<-HSD.test(yield, irrigation, DFerror, MSerror, alpha = 0.05, group=TRUE, main = NULL, 
+                   unbalanced=FALSE,console=FALSE)
+yield_irrigation
+
+
+genotype_irrigation<-HSD.test(yield, genotype, DFerror, MSerror, alpha = 0.05, group=TRUE, main = NULL, 
+                   unbalanced=FALSE,console=FALSE)
+genotype_irrigation
+
+
+yield_treatment<-HSD.test(yield, treatment, DFerror, MSerror, alpha = 0.05, group=TRUE, main = NULL, 
+                   unbalanced=FALSE,console=FALSE)
+yield_treatment
+
+
+
+
