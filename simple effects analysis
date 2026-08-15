@@ -1,0 +1,24 @@
+#Simple effects analysis
+
+# Analysis of the main and interaction effects
+Anova(anva1, type = 3)  # Type III: suitable for fixed effects
+
+# Simple effects of irrigation within each genotype
+irrigation_effect <- emmeans(anva1, pairwise ~ irrigation | genotype, adjust = "bonferroni")  
+print(irrigation_effect)
+
+# Simple effects of genotype within each irrigation level
+genotype_effect <- emmeans(anva1, pairwise ~ genotype | irrigation,adjust = "bonferroni")
+print(genotype_effect)
+
+
+# Comparisons of means with marginal estimates
+fixed_effects <- emmeans(anva1, pairwise ~ irrigation * genotype)
+print(fixed_effects)
+
+# Post hoc comparisons with Bonferroni adjustment
+pairs(fixed_effects, adjust = "bonferroni")
+
+
+
+
