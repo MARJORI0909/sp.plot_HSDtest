@@ -3,3 +3,6 @@
 data_yield$irrigation<-as.factor(data_yield$irrigation)
 
 data_yield$genotype<-as.factor(data_yield$genotype)
+
+class(genotype)
+class(irrigation)
