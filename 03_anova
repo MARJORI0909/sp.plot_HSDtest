@@ -8,22 +8,22 @@ leveneTest(data_yield$yield,interaction(data_yield$fertilización,data_yield$var
            center=median)
 
 #Including interaction
-anova1<-aov(yield~irrigation*genotype,data=data_yield)
-anova(anova1)
+anva1<-aov(yield~irrigation*genotype,data=data_yield)
+anova(anva1)
 
 #Normality test 
-aov_residuals <- residuals(object = anova1)
+aov_residuals <- residuals(object = anva1)
 shapiro.test(x=aov_residuals)
 
 #Coefficient of variation (CV)
-anova_chart<-anova(anova1)
+anova_chart<-anova(anva1)
 CMerror <- anova_chart["Residuals", "Mean Sq"]
 mean <- mean(data_yield$yield)
 CV <- (sqrt(CMerror) / mean) * 100
 CV
 
-anova1$coefficients
-plot(anova1)
+anva1$coefficients
+plot(anva1)
 
 
 
