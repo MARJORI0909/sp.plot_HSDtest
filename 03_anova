@@ -12,7 +12,7 @@ anova1<-aov(yield~irrigation*genotype,data=data_yield)
 anova(anova1)
 
 #Normality test 
-aov_residuals <- residuals(object = anva1)
+aov_residuals <- residuals(object = anova1)
 shapiro.test(x=aov_residuals)
 
 #Coefficient of variation (CV)
