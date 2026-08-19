@@ -13,7 +13,7 @@ print(genotype_effect)
 
 
 # Comparisons of means with marginal estimates
-fixed_effects <- emmeans(anva1, pairwise ~ irrigation * genotype)
+fixed_effects <- emmeans(anva1,  ~ irrigation * genotype)
 print(fixed_effects)
 
 # Post hoc comparisons with Bonferroni adjustment
